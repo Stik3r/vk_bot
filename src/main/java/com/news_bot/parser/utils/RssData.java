@@ -1,4 +1,4 @@
-package com.pets.news_bot.service.commonUtils;
+package com.news_bot.parser.utils;
 
 
 import com.rometools.rome.feed.synd.SyndFeed;

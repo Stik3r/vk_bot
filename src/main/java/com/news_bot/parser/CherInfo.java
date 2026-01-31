@@ -1,8 +1,8 @@
-package com.pets.news_bot.service.parser;
+package com.news_bot.parser;
 
-import core.models.NewsData;
-import com.pets.news_bot.service.commonUtils.ImageDownloader;
-import com.pets.news_bot.service.commonUtils.RssData;
+import com.news_bot.models.NewsData;
+import com.news_bot.parser.utils.ImageDownloader;
+import com.news_bot.parser.utils.RssData;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import org.jsoup.Jsoup;
@@ -56,7 +56,7 @@ public class CherInfo implements Parser {
         int indx = 0;
 
         for (SyndEntry entry : entries) {
-            if(entry.getPublishedDate().equals(lastPubDate) || indx == 10){
+            if(entry.getPublishedDate().equals(lastPubDate) || indx == 5){
                 indx = entries.indexOf(entry) + 1;
                 break;
             }
@@ -64,6 +64,7 @@ public class CherInfo implements Parser {
         }
 
         entries = entries.subList(0, indx);
+        lastPubDate = entries.get(0).getPublishedDate();
         Collections.reverse(entries);
 
         return entries;

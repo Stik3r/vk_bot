@@ -1,4 +1,4 @@
-package core.models;
+package com.news_bot.models;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,4 +13,8 @@ public class NewsData {
     private String description;
     private Date date;
     private List<Object> images;
+
+    public boolean isEmpty(){
+        return description == null || description.isEmpty();
+    }
 }
