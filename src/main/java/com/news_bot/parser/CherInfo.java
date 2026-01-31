@@ -16,7 +16,7 @@ import java.util.*;
 
 public class CherInfo implements Parser {
 
-    private final static String rssLink = "https://cherinfo.ru/rss/news";
+    private static final String RSS_LINK = "https://cherinfo.ru/rss/news";
 
     private Date lastPubDate;
 
@@ -43,7 +43,7 @@ public class CherInfo implements Parser {
     }
 
     private SyndFeed checkNewsUpdate() {
-        SyndFeed feed = RssData.getData(rssLink);
+        SyndFeed feed = RssData.getData(RSS_LINK);
         Date lastNewsDate = feed.getEntries().get(0).getPublishedDate();
 
         if (lastNewsDate.equals(lastPubDate)) {
