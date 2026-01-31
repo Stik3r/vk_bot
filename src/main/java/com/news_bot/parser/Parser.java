@@ -1,6 +1,6 @@
-package com.pets.news_bot.service.parser;
+package com.news_bot.parser;
 
-import core.models.NewsData;
+import com.news_bot.models.dto.NewsData;
 
 import java.util.List;
 
