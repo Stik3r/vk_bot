@@ -1,6 +1,7 @@
 package com.news_bot.job;
 
 import com.news_bot.NewsBot;
+import com.news_bot.models.exception.JobCreateException;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
@@ -24,7 +25,7 @@ public class NewsChecker implements Job {
             scheduler.scheduleJob(job, trigger);
             return scheduler;
         } catch (SchedulerException e) {
-            throw new RuntimeException(e);
+            throw new JobCreateException("Ошибка создания задачи", e);
         }
     }
 }

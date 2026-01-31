@@ -1,4 +1,4 @@
-package com.news_bot.models;
+package com.news_bot.models.dto;
 
 import lombok.Getter;
 import lombok.Setter;

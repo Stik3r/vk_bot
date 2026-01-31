@@ -1,6 +1,6 @@
 package com.news_bot;
 
-import com.news_bot.models.NewsData;
+import com.news_bot.models.dto.NewsData;
 import com.news_bot.parser.CherInfo;
 import com.news_bot.parser.Parser;
 import com.news_bot.vk_client.VKService;
@@ -22,6 +22,10 @@ public class NewsBot {
 
         parsers = new ArrayList<>();
         parsers.add(new CherInfo());
+    }
+
+    private NewsBot() {
+        throw new IllegalStateException("Static class");
     }
 
     public static void generateNews() {

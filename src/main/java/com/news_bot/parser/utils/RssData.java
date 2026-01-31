@@ -1,6 +1,7 @@
 package com.news_bot.parser.utils;
 
 
+import com.news_bot.models.exception.NewsParseException;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
@@ -13,14 +14,18 @@ import java.net.URL;
 @Slf4j
 public class RssData {
 
-    static public SyndFeed getData(String link) {
+    private RssData(){
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static SyndFeed getData(String link) {
         try {
             URL feedSource = new URL(link);
             SyndFeedInput input = new SyndFeedInput();
             return input.build(new XmlReader(feedSource));
         } catch (FeedException | IOException e) {
             log.error(e.getMessage());
-            throw new RuntimeException(e.getMessage());
+            throw new NewsParseException(e.getMessage(), e);
         }
     }
 }
