@@ -5,10 +5,14 @@ import com.news_bot.parser.CherInfo;
 import com.news_bot.parser.Parser;
 import com.news_bot.vk_client.VKService;
 import io.github.cdimascio.dotenv.Dotenv;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
 public class NewsBot {
 
     private static List<Parser> parsers;
@@ -29,18 +33,33 @@ public class NewsBot {
     }
 
     public static void generateNews() {
+        log.info("Начата задача получения новостей");
+        int count;
+        String logInfo;
+
         for (Parser parser : parsers) {
-            sendNews(parser.parseData());
+            count = sendNews(parser.parseData());
+            logInfo = String.format("Новостей из ресурса %s - %d", parser.getName(), count);
+            log.info(logInfo);
         }
     }
 
-    private static void sendNews(List<NewsData> news) {
+    private static int sendNews(List<NewsData> news) {
+        int count = 0;
         for (NewsData newsData : news) {
             if (newsData.isEmpty()) {
                 continue;
             }
 
-            vkService.sendMessage(newsData.getDescription());
+            if(newsData.getImages() == null){
+                vkService.sendMessage(newsData.getDescription());
+            }
+            else {
+                vkService.sendMessage(newsData.getDescription(), newsData.getImages());
+            }
+
+            count++;
         }
+        return count;
     }
 }
