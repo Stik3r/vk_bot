@@ -3,8 +3,9 @@ package com.news_bot.models.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.File;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -12,7 +13,7 @@ public class NewsData {
     private String title;
     private String description;
     private Date date;
-    private List<Object> images;
+    private Map<String, File> images;
 
     public boolean isEmpty(){
         return description == null || description.isEmpty();

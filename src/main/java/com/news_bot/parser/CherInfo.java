@@ -1,5 +1,6 @@
 package com.news_bot.parser;
 
+import com.news_bot.models.dto.ImageDto;
 import com.news_bot.models.dto.NewsData;
 import com.news_bot.models.exception.NewsParseException;
 import com.news_bot.parser.utils.ImageDownloader;
@@ -11,6 +12,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -40,6 +42,11 @@ public class CherInfo implements Parser {
         }
 
         return newsList;
+    }
+
+    @Override
+    public String getName() {
+        return "ЧерИнфо";
     }
 
     private SyndFeed checkNewsUpdate() {
@@ -82,14 +89,16 @@ public class CherInfo implements Parser {
 
                 switch (e.tagName()) {
                     case "p":
-                        description.append((e.text().isEmpty() || !e.getElementsByTag("iframe").isEmpty()) ? "" : e.text());
+                        description.append((e.text().isEmpty() || !e.getElementsByTag("iframe").isEmpty()) ? "" : e.text() + "\n\n");
                         Element img = e.getElementsByTag("img").first();
                         if (img != null) {
-                            news.setImages(downloadImages(new Elements(List.of(img))));
+                            news.setImages(getImagesLinks(new Elements(List.of(img))));
                         }
                         break;
                     case "div":
-                        news.setImages(downloadImages(e.getElementsByTag("a")));
+                        if(e.attr("class").equals("fotorama")){
+                            news.setImages(getImagesLinks(e.getElementsByTag("a")));
+                        }
                         break;
                     default:
                 }
@@ -103,14 +112,15 @@ public class CherInfo implements Parser {
         }
     }
 
-    private List<Object> downloadImages(Elements images) {
-        List<Object> result = new ArrayList<>();
+    private Map<String, File> getImagesLinks(Elements images) {
+        Map<String, File> result = new HashMap<>();
 
         for (Element img : images) {
             String link = img.attr("href").isEmpty() ? img.attr("src") : img.attr("href");
-            result.add(ImageDownloader.downloadImage(link));
+            ImageDto imageDto = ImageDownloader.downloadImage(link);
+            File file = new File(imageDto.getPath().toUri());
+            result.put(imageDto.getName(), file);
         }
         return result;
     }
-
 }
