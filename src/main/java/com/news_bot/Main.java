@@ -9,8 +9,8 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            Scheduler scheduler = NewsChecker.makeScheduler();
-            scheduler.start();
+            //Scheduler scheduler = NewsChecker.makeScheduler();
+            //scheduler.start();
         } catch (Exception e) {
             log.error(e.getMessage());
         }

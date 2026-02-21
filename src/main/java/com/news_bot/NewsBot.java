@@ -15,8 +15,8 @@ import java.util.Map;
 @Slf4j
 public class NewsBot {
 
-    private static List<Parser> parsers;
-    private static VKService vkService;
+    private static final List<Parser> parsers;
+    private static final VKService vkService;
 
     static {
         Dotenv dotenv = Dotenv.load();
